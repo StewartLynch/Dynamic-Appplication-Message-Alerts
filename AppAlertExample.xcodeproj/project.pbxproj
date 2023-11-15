@@ -11,6 +11,7 @@
 		BB362AE52B052D4E00ED39D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB362AE42B052D4E00ED39D7 /* ContentView.swift */; };
 		BB362AE72B052D4F00ED39D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB362AE62B052D4F00ED39D7 /* Assets.xcassets */; };
 		BB362AEA2B052D4F00ED39D7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB362AE92B052D4F00ED39D7 /* Preview Assets.xcassets */; };
+		BB362AF12B052DF600ED39D7 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB362AF02B052DF600ED39D7 /* MessageService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		BB362AE42B052D4E00ED39D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BB362AE62B052D4F00ED39D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BB362AE92B052D4F00ED39D7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		BB362AF02B052DF600ED39D7 /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				BB362AE22B052D4E00ED39D7 /* AppAlertExampleApp.swift */,
 				BB362AE42B052D4E00ED39D7 /* ContentView.swift */,
+				BB362AF02B052DF600ED39D7 /* MessageService.swift */,
 				BB362AE62B052D4F00ED39D7 /* Assets.xcassets */,
 				BB362AE82B052D4F00ED39D7 /* Preview Content */,
 			);
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB362AF12B052DF600ED39D7 /* MessageService.swift in Sources */,
 				BB362AE52B052D4E00ED39D7 /* ContentView.swift in Sources */,
 				BB362AE32B052D4E00ED39D7 /* AppAlertExampleApp.swift in Sources */,
 			);
