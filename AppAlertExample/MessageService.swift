@@ -11,43 +11,39 @@
 
 import Foundation
 
-struct Message: Codable {
-    var id: Int
-    var title: String
-    var text: String
-    var url: String
-}
-
-
 enum MessageService {
-    static var url = "https://stewartlynch.github.io/AppAlert/alert.json"
+    struct Message: Codable {
+        var id: Int
+        var title: String
+        var text: String
+        var url: String
+    }
+    static var cacheLocation = URL.cachesDirectory.path()
+    static var userDefaultsLocation = URL.libraryDirectory.appending(path: "Preferences").path()
     
-    static func fetchMessage() async -> Message? {
-        do {
-            return try await URLSession.shared.decode(Message.self, from: URL(string: self.url)!)
-        } catch {
-            return nil
+    static var url = "https://stewartlynch.github.io/AppAlert/alert.json"
+    static var message = Message(id: 0, title: "Failed", text: "Failed to retrieve Message", url: "")
+    static var lastMessageId: Int {
+        get {
+            UserDefaults.standard.integer(forKey: "lastMessageId")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "lastMessageId")
         }
     }
-}
-
-
-extension URLSession {
-    func decode<T: Decodable>(
-        _ type: T.Type = T.self,
-        from url: URL,
-        keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys,
-        dataDecodingStrategy: JSONDecoder.DataDecodingStrategy = .deferredToData,
-        dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate
-    ) async throws  -> T {
-        let (data, _) = try await data(from: url)
-
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = keyDecodingStrategy
-        decoder.dataDecodingStrategy = dataDecodingStrategy
-        decoder.dateDecodingStrategy = dateDecodingStrategy
-
-        let decoded = try decoder.decode(T.self, from: data)
-        return decoded
+    static func fetchMessage() async {
+        do {
+            let (data, _) = try  await URLSession.shared.data(from: URL(string: self.url)!)
+            message = try JSONDecoder().decode(Message.self, from: data)
+        } catch {
+            print("Could not decode")
+        }
+    }
+    static func toggleAlert(showMessage: inout Bool) async {
+        await fetchMessage()
+        if message.id > lastMessageId {
+            showMessage.toggle()
+        }
+        lastMessageId = message.id
     }
 }

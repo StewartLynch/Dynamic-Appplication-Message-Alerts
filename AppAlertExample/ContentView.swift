@@ -12,31 +12,24 @@
 import SwiftUI
 
 struct ContentView: View {
-    @AppStorage("lastMessageId") private var lastMessageId = 0
     @State private var showMessage = false
-    @State private var message: Message?
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("Hello, world!")
-                .alert(message?.text ?? "", isPresented: $showMessage) {
+                .alert(MessageService.message.title, isPresented: $showMessage) {
                     Button("OK") {}
-                    Link("More information", destination: URL(string: message?.url ?? "")! )
+                    if !MessageService.message.url.isEmpty {
+                        Link("More information", destination: URL(string: MessageService.message.url)!)
+                    }
                 } message: {
-                    Text(message?.text ?? "")
+                    Text(MessageService.message.text)
                 }
         }
         .task {
-            let message = await MessageService.fetchMessage()
-            if let id = message?.id {
-                if id >= lastMessageId {
-                    showMessage = true
-                }
-                lastMessageId = id
-            }
-                
+            await MessageService.toggleAlert(showMessage: &showMessage)
         }
         .padding()
     }

@@ -16,6 +16,10 @@ struct AppAlertExampleApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    print(MessageService.cacheLocation)
+                    print(MessageService.userDefaultsLocation)
+                }
         }
     }
 }
