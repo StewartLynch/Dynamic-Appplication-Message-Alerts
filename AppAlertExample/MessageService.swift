@@ -14,15 +14,17 @@ import Foundation
 enum MessageService {
     struct Message: Codable {
         var id: Int
+        var bundleId: String
         var title: String
         var text: String
         var url: String
     }
-    static var cacheLocation = URL.cachesDirectory.path()
-    static var userDefaultsLocation = URL.libraryDirectory.appending(path: "Preferences").path()
+    static let cacheLocation = URL.cachesDirectory.path()
+    static let userDefaultsLocation = URL.libraryDirectory.appending(path: "Preferences").path()
     
-    static var url = "https://stewartlynch.github.io/AppAlert/alert.json"
-    static var message = Message(id: 0, title: "Failed", text: "Failed to retrieve Message", url: "")
+    static let url = "https://stewartlynch.github.io/AppAlert/alert.json"
+    static let bundleIdentifier =  Bundle.main.bundleIdentifier!
+    static var message = Message(id: 0, bundleId: bundleIdentifier, title: "Failed", text: "Failed to retrieve Message", url: "")
     static var lastMessageId: Int {
         get {
             UserDefaults.standard.integer(forKey: "lastMessageId")
@@ -33,8 +35,15 @@ enum MessageService {
     }
     static func fetchMessage() async {
         do {
-            let (data, _) = try  await URLSession.shared.data(from: URL(string: self.url)!)
-            message = try JSONDecoder().decode(Message.self, from: data)
+            let (data, _) = try  await URLSession.shared.data(from: URL(string: url)!)
+            if let message = try JSONDecoder().decode(
+                [Message].self,
+                from: data
+            ).first(where: {
+                $0.bundleId == bundleIdentifier
+            }) {
+                self.message = message
+            }
         } catch {
             print("Could not decode")
         }
