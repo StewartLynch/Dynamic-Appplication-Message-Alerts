@@ -50,7 +50,7 @@ First, log in to your GitHub account.
 
 3. It is in this file that we want to create a JSON object that will allow us to decode in our app so call the file  **messages.json**.
 
-4. For body of the file,  you can an array of  json object that will represent the information that you want use to present an alert in your applications when necessary.
+4. For body of the file,  you can add an array of  json object that will represent the information that you want use to present an alert in your applications when necessary.
 
    1. Start with an empty array and within the array, create a json object for every one of the apps that you want to use to deploy this solution to.
 
@@ -109,7 +109,7 @@ This is the link to the Root folder, since you called the file **messages.json**
 https://stewartlynchdemo.github.io/AppAlert/messages.json
 ```
 
-11. If you copy that url into a browser search/navigation field and press <Enter>, you will see the JSON Returned.
+11. If you copy that url into a browser search/navigation field and press **Enter**, you will see the JSON Returned.
 
 ![image-20231116130541522](Images/image-20231116130541522.png)
 
@@ -150,7 +150,7 @@ struct Message: Codable {
 
 3. Next, create the class properties.
    1. The first one will be called `jsonURL` and it will be a String.  We will pass in the string for the url when the class is initialized.  This is the url that points to the **messages.json**.
-   2. The second will is a convenience property called `bundleIdentifier` that will a String representing the applications Bundle Identifier.  It can be initialized using `Bundle.main.bundleIdentifier` and you will need to force unwrap it. 
+   2. The second is a convenience property called `bundleIdentifier` that will be a String representing the applications Bundle Identifier.  It can be initialized using `Bundle.main.bundleIdentifier` and you will need to force unwrap it. 
 
 ```swift
 let jsonURL: String
