@@ -1,6 +1,6 @@
 //
 // Created for AppAlertExample
-// by  Stewart Lynch on 2023-11-15
+// by  Stewart Lynch on 2023-11-16
 //
 // Follow me on Mastodon: @StewartLynch@iosdev.space
 // Follow me on Threads: @StewartLynch (https://www.threads.net)
@@ -17,8 +17,8 @@ struct AppAlertExampleApp: App {
         WindowGroup {
             ContentView()
                 .onAppear {
-                    print(MessageService.cacheLocation)
-                    print(MessageService.userDefaultsLocation)
+                    print(AlertService.cacheLocation.path())
+                    print(AlertService.userDefaultsLocation.path())
                 }
         }
     }

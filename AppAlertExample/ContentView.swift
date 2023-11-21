@@ -1,6 +1,6 @@
 //
 // Created for AppAlertExample
-// by  Stewart Lynch on 2023-11-15
+// by  Stewart Lynch on 2023-11-16
 //
 // Follow me on Mastodon: @StewartLynch@iosdev.space
 // Follow me on Threads: @StewartLynch (https://www.threads.net)
@@ -12,26 +12,19 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showMessage = false
+    @State private var alertService = AlertService("https://stewartlynchdemo.github.io/AppAlert/messages.json")
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("Hello, world!")
-                .alert(MessageService.message.title, isPresented: $showMessage) {
-                    Button("OK") {}
-                    if !MessageService.message.url.isEmpty {
-                        Link("More information", destination: URL(string: MessageService.message.url)!)
-                    }
-                } message: {
-                    Text(MessageService.message.text)
-                }
-        }
-        .task {
-            await MessageService.toggleAlert(showMessage: &showMessage)
+                .messageAlert(alertService)
         }
         .padding()
+        .task {
+            await alertService.showAlertIfNecessary()
+        }
     }
 }
 
