@@ -670,3 +670,62 @@ I am sure you can get creative with the JSON payload so that you can provide muc
 
 It is all up to your own imagination here.  It is very powerful.
 
+## Sample JSON Examples
+
+1. Basic
+
+```swift
+{
+   "id":1,
+   "bundleId":"com.createchsol.AppAlertExample",
+   "title":"App Alert",
+   "text":"Warning:  There is a bug in the application and I am working on it.",
+   "confirmLabel":"OK",
+}
+```
+
+2. Basic with Link Button
+
+```swift
+{
+   "id":2,
+   "bundleId":"com.createchsol.AppAlertExample",
+   "title":"App Alert",
+   "text":"Warning:  There is a bug in the application and I am working on it.",
+   "confirmLabel":"OK",
+   "link":{
+      "title":"More information",
+      "url":"https://www.createchsol.com"
+   }
+}
+```
+
+3. Basic + app version check
+
+```swift
+{
+   "id":3,
+   "bundleId":"com.createchsol.AppAlertExample",
+   "title":"App Alert",
+   "text":"Warning:  There is a bug in the application and I am working on it.",
+   "confirmLabel":"OK",
+   "appVersions": ["1.0"],
+}
+```
+
+4. Basic + os version check + Link button
+
+```swift
+{
+   "id":4,
+   "bundleId":"com.createchsol.AppAlertExample",
+   "title":"App Alert",
+   "text":"Warning:  There is a bug in the application and I am working on it.",
+   "confirmLabel":"OK",
+   "osVersions": ["17.0.1", "17.2"],
+   "link":{
+      "title":"More information",
+      "url":"https://www.createchsol.com"
+   }
+}
+```
