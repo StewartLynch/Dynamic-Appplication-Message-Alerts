@@ -1,10 +1,6 @@
 # Dynamic Application Message Alerts
 
-**Full Video**
-
-[<img src="Images/RWThumbnail.png" alt="Thumbnail" style="zoom:75%;" />](https://youtu.be/58zVtGTHOFw)
-
- There may be times that you have an urgent need to alert users of your apps and you need to do this without having to wait for an AppStore update.
+There may be times that you have an urgent need to alert users of your apps and you need to do this without having to wait for an AppStore update.
 
 Perhaps a recent OS update is causing an issue with some functionality in your app and you need a little time to work on it.  You are getting bad reviews or support emails are getting out of control. 
 
@@ -20,8 +16,6 @@ I will perform a check in my app to see if it has already seen that information 
 
 ## Create a Sample App
 
-[Video Link](https://youtu.be/58zVtGTHOFw?si=S8yqUXjQngh1J2tL&t=109)
-
 The first, create a sample application to test out the solution.  Each application will have a unique Bundle ID  and you can use that to make sure that you are grabbing the correct json object from the array that you will be decoding.  You can use the same json payload for all of your applications with each object in the array being a potential message  for one of your apps.  You'll be able to know which one you want by the app's Bundle ID.
 
 1. You can call the app anything you want. For example **AppAlertExample**
@@ -31,8 +25,6 @@ The first, create a sample application to test out the solution.  Each applicati
    ![image-20231115211141472](Images/image-20231115211141472.png)
 
 ## GitHub Pages
-
-[Video Link](https://youtu.be/58zVtGTHOFw?si=S8yqUXjQngh1J2tL&t=2m38s)
 
 GitHub Pages is a static site hosting service that takes HTML, CSS, and JavaScript files straight from a repository on GitHub and publishes a website.
 
@@ -124,8 +116,6 @@ https://stewartlynchdemo.github.io/AppAlert/messages.json
 This is exactly what you need to fetch from your application and then decode it into an array of messages and find the one that will correspond to your application's Bundle ID.
 
 ## Creating the Message Service
-
-[Video Link](https://youtu.be/58zVtGTHOFw?si=S8yqUXjQngh1J2tL&t=7m30s)
 
 Now, it is up to you to create a generic **AlertService** that you can use in all of your apps including the demo one.
 
@@ -286,8 +276,6 @@ func fetchMessage() async {
 
 ### Presenting the Alert
 
-[Video Link](https://youtu.be/58zVtGTHOFw?si=S8yqUXjQngh1J2tL&t=15m33s)
-
 1. In *ContentView* for the sample app, create a new **State** property initializing the AlertService and pass in the url to the json.
 
 ```swift
@@ -331,8 +319,6 @@ That is it done.
 6. If you run the app again a second time, you will find that the alert is not presented.
 
 ## Enhancements and more checks
-
-[Video Link](https://youtu.be/58zVtGTHOFw?si=S8yqUXjQngh1J2tL&t=17m56s)
 
 Just checking to see if an alert has been displayed or not, may not be granular enough for your needs, or perhaps you would like to provide a way for your users to get more information about the issue.
 
@@ -635,8 +621,6 @@ The Link, will be an optional button on the alert that will allow the user to na
 
 ## Potential Issues
 
-[Video Link](https://youtu.be/58zVtGTHOFw?si=S8yqUXjQngh1J2tL&t=31m23s)
-
 It may be the case as you are testing your app and updating the json on your GitHub page, that when you return and run your app, the alert is not presented.  Why would this be the case?
 
 It turns out that your app is caching the html content.  Eventually, the cache will get purged and if you wait long enough it will.  This will not really be an issue for your users, because it does get cleared fairly quickly, but if you are impatient during testing and would like to clear that cache immediately for testing purposes, you can do that
@@ -670,7 +654,7 @@ If you are not getting an alert and you expect one, it could be that the cache h
 
 ### Updating the lastMessageId
 
-If I want to test the app out again, you can either go back and update that JSON object by providing a higher `id` value, changing the apps version number, or you can change the value stored in UserDefaults so that it is less than the value in your message id.
+If you want to test the app out again, you can either go back and update that JSON object by providing a higher `id` value, changing the apps version number, or you can change the value stored in UserDefaults so that it is less than the value in your message id.
 
 If you do not update the JSON, but still want to verify that all is well, you can either delete the current userDefaults and run again.  However, you may have other values persisted in UserDefaults unrelated to this alert so deleting it may not be a great idea.  What you can do, is update that single value by setting it back to some value lower than the id in the message json for this application.
 
@@ -680,241 +664,9 @@ It turns out that this is just a file in the preferences folder your my app and 
 2. Change this value to any number less than that.
 3. When you run again, the alert pops up.
 
-## Cancelling Alerts
-
-[Video Link](https://youtu.be/58zVtGTHOFw?si=S8yqUXjQngh1J2tL&t=35m08s)
-
-If a user has not used your app in a long time, or if you have new user installations, it is quite possible that when they launch your app, they will be presented with an alert that may no longer be valid.  Others who have been faithfully been using your app regularly will have fetched the json and, if applicable, would have had the alert presented and their stored *lastMessageId* would have been updated.  However, those other users will not, so they might still be presented with that alert.
-
-It is important then, that once your issue has been resolved, that you cancel the alert.
-
-This can be done in a couple of different ways.
-
-1. You could just reset the value of the id value in your json back to 0 and it will never be presented  again.  However, the danger here is that you might forget what your last id was so when you are ready to present a new alert, you might forget what the last id value was and fail to use a higher integer value.
-
-2. A better solution would be to keep the last id the same but either add a new value for the *osVersions* or *appVersions* key that will never be true.
-
-   For example
-
-  ```swift
-  "osVersions": ["0"]
-  or
-  "appversions": ["0"]
-  ```
-
-Then, when you are ready to update the alert for this application, you can increment the id number and then either remove any unnecessary osVersions or appVersions key value pairs or replace the array with values that apply.
-
-## Conclusion
-
-Remember, you can use the same **messages.json** file for all of your apps as it is an array where each object in the array represents a different application.
-
 I hope that you have found this tutorial helpful and that you can see uses for this technique in your own projects.
 
 I am sure you can get creative with the JSON payload so that you can provide much more information and instead of presenting an alert, present a modal sheet instead.
 
 It is all up to your own imagination here.  It is very powerful.
 
-## Source Code
-
-### Alert Service
-
-```swift
-import Foundation
-import SwiftUI
-
-@Observable
-class AlertService {
-    struct Message: Codable {
-        struct Link: Codable {
-            let title: String
-            let url: String
-        }
-        var id: Int = 0
-        var bundleId: String = ""
-        var title: String = ""
-        var text: String = ""
-        var confirmLabel: String = ""
-        var appVersions: [String]?
-        var osVersions: [String]?
-        var link: Link?
-    }
-    
-    let jsonURL: String
-    let bundleIdentifier = Bundle.main.bundleIdentifier!
-    var message = Message()
-    var showMessage = false
-    static var appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
-    static var osVersion = UIDevice.current.systemVersion
-    static let cachesLocation = URL.cachesDirectory
-    static let userDefaultsLocation = URL.libraryDirectory.appending(path: "Preferences")
-    
-    var lastMessageId: Int {
-        get {
-            UserDefaults.standard.integer(forKey: "lastMessageId")
-        }
-        set {
-            UserDefaults.standard.setValue(newValue, forKey: "lastMessageId")
-        }
-    }
-    
-    init(_ jsonURL: String) {
-        self.jsonURL = jsonURL
-    }
-    
-    func fetchMessage() async {
-        do {
-            let (data, _) = try await URLSession.shared.data(from: URL(string: jsonURL)!)
-            if let message = try JSONDecoder().decode(
-                [Message].self,
-                from: data
-            ).first(where: {
-                $0.bundleId == bundleIdentifier
-            }) {
-                self.message = message
-            }
-        } catch {
-            print("Could not decode")
-        }
-    }
-    
-    func showAlertIfNecessary() async {
-        await fetchMessage()
-        guard message.id > lastMessageId else { return }
-        if let osVersions = message.osVersions {
-            guard osVersions.contains(Self.osVersion) else { return }
-        }
-        if let appVersions = message.appVersions {
-            guard appVersions.contains(Self.appVersion) else { return }
-        }
-        showMessage.toggle()
-        lastMessageId = message.id
-    }
-    
-    struct AlertModifier: ViewModifier {
-        @Bindable var alertService: AlertService
-        func body(content: Content) -> some View {
-            content
-                .alert(alertService.message.title, isPresented: $alertService.showMessage) {
-                    Button(alertService.message.confirmLabel) {}
-                    if let link = alertService.message.link {
-                        Link(link.title, destination: URL(string: link.url)!)
-                    }
-                } message: {
-                    Text(alertService.message.text)
-                }
-        }
-    }
-    
-}
-
-extension View {
-    func messageAlert(_ alertService: AlertService) -> some View {
-        modifier(AlertService.AlertModifier(alertService: alertService))
-    }
-}
-
-```
-
-### Call Site Example
-
-```swift
-struct ContentView: View {
-    @State private var alertService = AlertService("https://stewartlynchdemo.github.io/AppAlert/messages.json")
-    var body: some View {
-        VStack {
-            // Your ContentView
-        }
-        .messageAlert(alertService)
-        .task {
-            await alertService.showAlertIfNecessary()
-        }
-    }
-}
-```
-
-### Sample JSON Examples
-
-1. Basic
-
-```swift
-{
-   "id":1,
-   "bundleId":"com.createchsol.AppAlertExample",
-   "title":"App Alert",
-   "text":"Warning:  There is a bug in the application and I am working on it.",
-   "confirmLabel":"OK",
-}
-```
-
-2. Basic with Link Button
-
-```swift
-{
-   "id":2,
-   "bundleId":"com.createchsol.AppAlertExample",
-   "title":"App Alert",
-   "text":"Warning:  There is a bug in the application and I am working on it.",
-   "confirmLabel":"OK",
-   "link":{
-      "title":"More information",
-      "url":"https://www.createchsol.com"
-   }
-}
-```
-
-3. Basic + app version check
-
-```swift
-{
-   "id":3,
-   "bundleId":"com.createchsol.AppAlertExample",
-   "title":"App Alert",
-   "text":"Warning:  There is a bug in the application and I am working on it.",
-   "confirmLabel":"OK",
-   "appVersions": ["1.0"],
-}
-```
-
-4. Basic + os version check + Link button
-
-```swift
-{
-   "id":4,
-   "bundleId":"com.createchsol.AppAlertExample",
-   "title":"App Alert",
-   "text":"Warning:  There is a bug in the application and I am working on it.",
-   "confirmLabel":"OK",
-   "osVersions": ["17.0.1", "17.2"],
-   "link":{
-      "title":"More information",
-      "url":"https://www.createchsol.com"
-   }
-}
-```
-
-5. Multiple Applications
-
-```swift
-[
-  {
-     "id":3,
-     "bundleId":"com.createchsol.AppAlertExample",
-     "title":"App Alert",
-     "text":"Warning:  There is a bug in the application and I am working on it.",
-     "confirmLabel":"OK",
-     "osVersions": ["17.0.1", "17.2"],
-     "appVersions": ["1.0"],
-     "link":{
-        "title":"More information",
-        "url":"https://www.createchsol.com"
-     }
-  },
-  {
-     "id":1,
-     "bundleId":"com.createchsol.MyWineCellar",
-     "title":"Special Offer",
-     "text":"Pro user subscription is on sale until the end of the month.",
-     "confirmLabel":"OK"
-  }
-]
-```
