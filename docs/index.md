@@ -664,9 +664,37 @@ It turns out that this is just a file in the preferences folder your my app and 
 2. Change this value to any number less than that.
 3. When you run again, the alert pops up.
 
+## Cancelling Alerts
+
+If a user has not used your app in a long time, or if you have new user installations, it is quite possible that when they launch your app, they will be presented with an alert that may no longer be valid.  Others who have been faithfully been using your app regularly will have fetched the json and, if applicable, would have had the alert presented and their stored *lastMessageId* would have been updated.  However, those other users will not, so they might still be presented with that alert.
+
+It is important then, that once your issue has been resolved, that you cancel the alert.
+
+This can be done in a couple of different ways.
+
+1. You could just reset the value of the id value in your json back to 0 and it will never be presented  again.  However, the danger here is that you might forget what your last id was so when you are ready to present a new alert, you might forget what the last id value was and fail to use a higher integer value.
+
+2. A better solution would be to keep the last id the same but either add a new value for the *osVersions* or *appVersions* key that will never be true.
+
+   For example
+
+  ```swift
+  "osVersions": ["0"]
+  or
+  "appversions": ["0"]
+  ```
+
+Then, when you are ready to update the alert for this application, you can increment the id number and then either remove any unnecessary osVersions or appVersions key value pairs or replace the array with values that apply.
+
+## Conclusion
+
+Remember, you can use the same **messages.json** file for all of your apps as it is an array where each object in the array represents a different application.
+
 I hope that you have found this tutorial helpful and that you can see uses for this technique in your own projects.
 
 I am sure you can get creative with the JSON payload so that you can provide much more information and instead of presenting an alert, present a modal sheet instead.
+
+
 
 It is all up to your own imagination here.  It is very powerful.
 
