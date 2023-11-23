@@ -1,6 +1,6 @@
 //
 // Created for AppAlertExample
-// by  Stewart Lynch on 2023-11-16
+// by  Stewart Lynch on 2023-11-22
 //
 // Follow me on Mastodon: @StewartLynch@iosdev.space
 // Follow me on Threads: @StewartLynch (https://www.threads.net)
@@ -24,6 +24,8 @@ class AlertService {
         var title: String = ""
         var text: String = ""
         var confirmLabel: String = ""
+        var appVersions: [String]?
+        var osVersions: [String]?
         var link: Link?
     }
     
@@ -31,7 +33,9 @@ class AlertService {
     let bundleIdentifier = Bundle.main.bundleIdentifier!
     var message = Message()
     var showMessage = false
-    static let cacheLocation = URL.cachesDirectory
+    static var appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
+    static var osVersion = UIDevice.current.systemVersion
+    static let cachesLocation = URL.cachesDirectory
     static let userDefaultsLocation = URL.libraryDirectory.appending(path: "Preferences")
     
     var lastMessageId: Int {
@@ -65,9 +69,14 @@ class AlertService {
     
     func showAlertIfNecessary() async {
         await fetchMessage()
-        if message.id > lastMessageId {
-            showMessage.toggle()
+        guard message.id > lastMessageId else { return }
+        if let osVersions = message.osVersions {
+            guard osVersions.contains(Self.osVersion) else { return }
         }
+        if let appVersions = message.appVersions {
+            guard appVersions.contains(Self.appVersion) else { return }
+        }
+        showMessage.toggle()
         lastMessageId = message.id
     }
     
@@ -75,8 +84,7 @@ class AlertService {
         @Bindable var alertService: AlertService
         func body(content: Content) -> some View {
             content
-                .alert(alertService.message.title, 
-                       isPresented: $alertService.showMessage) {
+                .alert(alertService.message.title, isPresented: $alertService.showMessage) {
                     Button(alertService.message.confirmLabel) {}
                     if let link = alertService.message.link {
                         Link(link.title, destination: URL(string: link.url)!)
@@ -86,6 +94,7 @@ class AlertService {
                 }
         }
     }
+    
 }
 
 extension View {
