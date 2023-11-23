@@ -15,13 +15,9 @@ struct ContentView: View {
     @State private var alertService = AlertService("https://stewartlynchdemo.github.io/AppAlert/messages.json")
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-                .messageAlert(alertService)
+            // Your ContentView
         }
-        .padding()
+        .messageAlert(alertService)
         .task {
             await alertService.showAlertIfNecessary()
         }
