@@ -14,8 +14,17 @@ import SwiftUI
 struct ContentView: View {
     @State private var alertService = AlertService("https://stewartlynchdemo.github.io/AppAlert/messages.json")
     var body: some View {
-        VStack {
-            // Your ContentView
+        NavigationStack {
+            VStack {
+                Image(.greetings)
+                    .resizable()
+                    .scaledToFit()
+                    .padding()
+                if alertService.showMessage == false {
+                    Text("You are up to date")
+                }
+            }
+            .navigationTitle("Dynamic Alerts")
         }
         .messageAlert(alertService)
         .task {
